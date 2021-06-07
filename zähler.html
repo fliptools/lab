@@ -37,9 +37,10 @@ function zaehlerstand () {
   var Zaehler = 0;
   if (Anzahl != "") {
     Zaehler = parseInt(Anzahl) || 0;
-  }
+  {
+var now = Date.now
   Zaehler = Zaehler + 1;
-  wertSetzen("Zaehler", Zaehler, Verfallszeit);
+  wertSetzen("Zaehler", now, Zaehler, Verfallszeit);
   return (Zaehler);
 }
 
