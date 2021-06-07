@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0;" />
+  <link rel="stylesheet" media="screen" href="./Beispiel:SELFHTML-Beispiel-Grundlayout.css" />
+  <link rel="stylesheet" media="screen" href="1-aktuell/Beispiel-Grundlayout.css" />  
+  <title>Persönliche Seitenbesuche zählen mit Cookies</title>
+<script>
+'use strict';
+function init() {
+  var besuch = zaehlerstand();
+  var ausgabe = document.getElementById('info');
+  ausgabe.innerHTML = besuch;
+}
+function wertHolen () {
+  var Wert = "";
+  if (document.cookie) {
+    var Wertstart = document.cookie.indexOf("=") + 1;
+    var Wertende = document.cookie.indexOf(";");
+    if (Wertende == -1) {
+      Wertende = document.cookie.length;
+    }
+  Wert = document.cookie.substring(Wertstart, Wertende);
+  }
+  return Wert;
+}
+
+function wertSetzen (Bezeichner, Wert, Verfall) {
+  var jetzt = new Date();
+  var Auszeit = new Date(jetzt.getTime() + Verfall);
+  document.cookie = Bezeichner + "=" + Wert + "; expires=" + Auszeit.toGMTString() + ";";
+}
+
+function zaehlerstand () {
+  var Verfallszeit = 1000 * 60 * 60 * 24 * 365;
+  var Anzahl = wertHolen();
+  var Zaehler = 0;
+  if (Anzahl != "") {
+    Zaehler = parseInt(Anzahl) || 0;
+  }
+  Zaehler = Zaehler + 1;
+  wertSetzen("Zaehler", Zaehler, Verfallszeit);
+  return (Zaehler);
+}
+
+window.addEventListener('DOMContentLoaded', init);
+</script>  
+<style>
+span {
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+  <h1>Persönliche Seitenbesuche zählen mit Cookies</h1>
+ 
+  <main>
+    <h2>Eine Seite, die etwas über Sie weiß...</h2> 
+    <p>Dies ist Ihr <span id="info">1</span>. Besuch auf dieser Seite!</p>
+    <p>Benutzen Sie doch mal die Reload-Funktion Ihres Browsers ...</p>
+    
+  </main>
+
+</body>
+</html>
